@@ -75,7 +75,7 @@ import { OptionalJwtGuard } from './auth/guards/optional-jwt.guard';
                 password: cfg.get<string>('DB_PASS', 'postgres'),
                 database: cfg.get<string>('DB_NAME', 'airways'),
                 autoLoadEntities: true,
-                synchronize: false,
+                synchronize: true,
                 logging: cfg.get<string>('DB_LOGGING', 'false') === 'true',
             }),
         }),
