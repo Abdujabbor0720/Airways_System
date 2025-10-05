@@ -33,8 +33,14 @@ async function bootstrap() {
     app.useGlobalFilters(new HttpErrorFilter());
     const configService = app.get(ConfigService);
     const corsEnv = configService.get<string>('CORS_ORIGIN');
-    const origin = corsEnv ? corsEnv.split(',').map((s) => s.trim()) : true;
-    app.enableCors({ origin, credentials: true, methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], allowedHeaders: ['Authorization', 'Content-Type', 'X-Trace-Id'] });
+    const origin = corsEnv ? corsEnv.split(',').map((s) => s.trim()) : '*'; // Allow all origins
+    app.enableCors({ 
+        origin, 
+        credentials: false, // Changed from true to false for wildcard origin
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], 
+        allowedHeaders: ['Authorization', 'Content-Type', 'X-Trace-Id', 'X-Request-Id'],
+        exposedHeaders: ['X-Request-Id']
+    });
     const swaggerConfig = new DocumentBuilder()
         .setTitle('Airways API')
         .setDescription('Airways platform API documentation')
